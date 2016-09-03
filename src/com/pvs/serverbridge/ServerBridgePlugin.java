@@ -18,13 +18,16 @@ import com.pvs.serverbridge.packets.PacketMessage;
 import com.pvs.serverbridge.packets.PacketPrivateMessage;
 import com.pvs.serverbridge.packets.PacketPrivateMessageReply;
 
+import org.apache.logging.log4j.Logger;
+import  org.apache.logging.log4j.LogManager;
+
 public class ServerBridgePlugin extends JavaPlugin
 {
 	private static ServerBridgePlugin instance;
 	private static Settings settings;
 	private static PacketHandler packetHandler;
 
-	private static final org.apache.logging.log4j.Logger nastyLoggerLine = org.apache.logging.log4j.LogManager.getLogger();
+	private static final Logger nastyLoggerLine = LogManager.getLogger();
 
 	@Override
 	public void onEnable()
