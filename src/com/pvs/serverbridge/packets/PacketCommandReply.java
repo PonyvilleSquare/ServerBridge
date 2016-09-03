@@ -61,10 +61,13 @@ public class PacketCommandReply extends Packet
 		{
 			final PacketCommandReply p = (PacketCommandReply) packet;
 			final CommandSender sender = p.getSender() == null ? Bukkit.getConsoleSender() : Bukkit.getPlayer(p.getSender());
-      if (p.getResult())
-        sender.sendMessage(ChatColor.AQUA + "The command was executed!");
-      else
-        sender.sendMessage(ChatColor.RED + "The command failed to execute! Check your syntax");
+			if(sender != null)
+				if (p.getResult())
+					sender.sendMessage(ChatColor.AQUA + "The command was executed!");
+				else
+					sender.sendMessage(ChatColor.RED + "The command failed to execute! Check your syntax");
+			else
+					Bukkit.getConsoleSender().sendMessage(ChatColor.AQUA + "The command was executed!");
 		}
 	}
 }
