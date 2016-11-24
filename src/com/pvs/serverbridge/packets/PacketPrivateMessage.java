@@ -77,7 +77,6 @@ public class PacketPrivateMessage extends Packet
 
 			if (CommandPrivateMessage.sendMessage(sender, receiver, message))
 			{
-				@SuppressWarnings("deprecation")
 				final Player player = Bukkit.getPlayer(receiver);
 				ServerBridgePlugin.getPacketHandler().sendPacket(new PacketPrivateMessageReply(sender, player == null ? receiver : player.getName(), message, true));
 			}

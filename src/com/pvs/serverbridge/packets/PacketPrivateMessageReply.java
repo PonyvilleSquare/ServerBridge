@@ -80,7 +80,6 @@ public class PacketPrivateMessageReply extends Packet
 		public void process(final Packet packet)
 		{
 			final PacketPrivateMessageReply p = (PacketPrivateMessageReply) packet;
-			@SuppressWarnings("deprecation")
 			final CommandSender sender = p.getSender().equalsIgnoreCase("console") ? Bukkit.getConsoleSender() : Bukkit.getPlayer(p.getSender());
 			if (sender != null)
 			{

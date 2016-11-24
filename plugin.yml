@@ -1,0 +1,34 @@
+name: ServerBridge
+authors: [Hepolite, SweetieBelle]
+main: com.pvs.serverbridge.ServerBridgePlugin
+version: 1.0.2
+description: >
+             Adds a communication bridge between two servers
+commands:
+    bridgecommand:
+        description: Executes a command on the other side of the bridge
+        usage: /bridgecommand <command>
+        permission: serverbridge.bridge
+        permission-message: Sorry, you don't have permission to use this command
+    bridgereload:
+        description: Reloads the configs on the called side of the bridge
+        usage: /bridgereload
+        permission: serverbridge.bridge
+        permission-message: Sorry, you don't have permission to use this command
+    glist:
+        description: Allows seeing all the users online on both sides
+        usage: /glist
+        permission: serverbridge.glist
+        permission-message: Sorry, you don't have permission to use this command
+    msb:
+        description: Sends a message to the given player
+        usage: /msb <player> <message>
+        permission: serverbridge.msb
+        permission-message: Sorry, you don't have permission to use this command
+permissions:
+    serverbridge.bridge:
+        description: Gives access to the bridgecommand and reload command
+    serverbridge.glist:
+        description: Gives access to the glist command
+    serverbridge.msb:
+        description: Gives access to the msb command

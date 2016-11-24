@@ -38,7 +38,6 @@ public class CommandPrivateMessage implements CommandExecutor
 	/** Transmits a message from the sender to the receiver; returns true if the message was sent */
 	public final static boolean sendMessage(String sender, String receiver, String message)
 	{
-		@SuppressWarnings("deprecation")
 		Player target = Bukkit.getPlayer(receiver);
 		if (target == null)
 			return false;
@@ -49,7 +48,6 @@ public class CommandPrivateMessage implements CommandExecutor
 	/** Displays the message as being sent to the receiver */
 	public final static boolean verifyMessage(CommandSender sender, String receiver, String message, boolean guaranteedSafe)
 	{
-		@SuppressWarnings("deprecation")
 		Player target = Bukkit.getPlayer(receiver);
 		if (target == null && !guaranteedSafe)
 			return false;

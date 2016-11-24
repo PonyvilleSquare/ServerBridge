@@ -3,8 +3,6 @@ package com.pvs.serverbridge.packets;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import java.util.Collections;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -80,7 +78,7 @@ public class PacketGListReply extends Packet
 				playerNames.add(player.getName());
 			for (String name : p.getPlayers())
 				playerNames.add(name);
-			playerNames = Collections.sort(playerNames);
+			playerNames.sort(null);
 			sender.sendMessage("Users online:");
 			sender.sendMessage(Joiner.on(", ").join(playerNames));
 		}
