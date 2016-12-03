@@ -1,5 +1,7 @@
 package com.pvs.serverbridge;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.pvs.serverbridge.commands.CommandGList;
@@ -19,11 +21,7 @@ import com.pvs.serverbridge.packets.PacketMessage;
 import com.pvs.serverbridge.packets.PacketPrivateMessage;
 import com.pvs.serverbridge.packets.PacketPrivateMessageReply;
 
-import org.apache.logging.log4j.Logger;
-import  org.apache.logging.log4j.LogManager;
-
-public class ServerBridgePlugin extends JavaPlugin
-{
+public class ServerBridgePlugin extends JavaPlugin {
 	private static ServerBridgePlugin instance;
 	private static Settings settings;
 	private static PacketHandler packetHandler;
@@ -31,8 +29,7 @@ public class ServerBridgePlugin extends JavaPlugin
 	private static final Logger nastyLoggerLine = LogManager.getLogger();
 
 	@Override
-	public void onEnable()
-	{
+	public void onEnable() {
 		Log.initialize(this);
 		instance = this;
 		settings = new Settings(this);
@@ -60,20 +57,12 @@ public class ServerBridgePlugin extends JavaPlugin
 		packetHandler.registerPacket(PacketJoinServer.class, new PacketJoinServer.Parser(), new PacketJoinServer.Processor(), "JOIN");
 
 		// Set up the task that ticks the packet handler, and register the listener
-		getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				packetHandler.onTick();
-			}
-		}, 0, 20);
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> packetHandler.onTick(), 0, 20);
 		getServer().getPluginManager().registerEvents(new ServerBridgeListener(), this);
 	}
 
 	@Override
-	public void onDisable()
-	{
+	public void onDisable() {
 		getServer().getScheduler().cancelTasks(this);
 		packetHandler.close();
 	}
@@ -81,26 +70,22 @@ public class ServerBridgePlugin extends JavaPlugin
 	// //////////////////////////////////////////////////
 
 	/** Returns the plugin instance */
-	public final static ServerBridgePlugin getInstance()
-	{
+	public final static ServerBridgePlugin getInstance() {
 		return instance;
 	}
 
 	/** Returns the packet handler instance */
-	public final static PacketHandler getPacketHandler()
-	{
+	public final static PacketHandler getPacketHandler() {
 		return packetHandler;
 	}
 
 	/** Returns the settings */
-	public final static Settings getSettings()
-	{
+	public final static Settings getSettings() {
 		return settings;
 	}
 
 	/** Returns the raw plugin logger instance */
-	public final static org.apache.logging.log4j.Logger getRawLogger()
-	{
+	public final static org.apache.logging.log4j.Logger getRawLogger() {
 		return nastyLoggerLine;
 	}
 }

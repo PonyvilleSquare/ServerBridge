@@ -8,55 +8,46 @@ import org.bukkit.entity.Player;
 
 import com.pvs.serverbridge.ServerBridgePlugin;
 
-public class PacketGList extends Packet
-{
+public class PacketGList extends Packet {
 	private final UUID sender;
 
-	public PacketGList(final Player sender)
-	{
+	public PacketGList(final Player sender) {
 		this(sender.getUniqueId());
 	}
 
-	public PacketGList(final UUID sender)
-	{
+	public PacketGList(final UUID sender) {
 		this.sender = sender;
 	}
 
 	/** Returns the sender that is associated with this packet */
-	public final UUID getSender()
-	{
+	public final UUID getSender() {
 		return sender;
 	}
 
 	// //////////////////////////////////////////////////////////////
-	public static class Parser extends Packet.Parser
-	{
+	public static class Parser extends Packet.Parser {
 		@Override
-		public String write(final Packet packet)
-		{
+		public String write(final Packet packet) {
 			final PacketGList p = (PacketGList) packet;
 			return String.format("%s", p.getSender().toString());
 		}
 
 		@Override
-		public Packet read(final String string)
-		{
+		public Packet read(final String string) {
 			final UUID sender = UUID.fromString(string);
 			return new PacketGList(sender);
 		}
 	}
 
-	public static class Processor extends Packet.Processor
-	{
+	public static class Processor extends Packet.Processor {
 		@Override
-		public void process(final Packet packet)
-		{
+		public void process(final Packet packet) {
 			final PacketGList p = (PacketGList) packet;
 
 			int i = 0;
-			Collection<? extends Player> players = Bukkit.getOnlinePlayers();
-			String[] playerNames = new String[players.size()];
-			for (Player player : players)
+			final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+			final String[] playerNames = new String[players.size()];
+			for (final Player player : players)
 				playerNames[i++] = player.getName();
 
 			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketGListReply(p.getSender(), playerNames));

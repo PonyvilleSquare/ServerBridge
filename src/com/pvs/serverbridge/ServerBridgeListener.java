@@ -10,8 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.kitteh.vanish.VanishPerms;
-import ru.tehkode.permissions.PermissionUser;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import com.dthielke.Herochat;
 import com.dthielke.api.ChatResult;
@@ -19,17 +17,18 @@ import com.dthielke.api.event.ChannelChatEvent;
 import com.pvs.serverbridge.packets.PacketJoinServer;
 import com.pvs.serverbridge.packets.PacketMessage;
 
-public class ServerBridgeListener implements Listener
-{
-	private GeoIPHook hook;
+import ru.tehkode.permissions.PermissionUser;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
+
+public class ServerBridgeListener implements Listener {
+	private final GeoIPHook hook;
 
 	public ServerBridgeListener() {
 		hook = new GeoIPHook();
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void herochatMessage(final ChannelChatEvent event)
-	{
+	public void herochatMessage(final ChannelChatEvent event) {
 		if (event.getResult() != ChatResult.ALLOWED)
 			return;
 		if (!ServerBridgePlugin.getSettings().whitelistedChannels.contains(event.getChannel().getName().toLowerCase()))
@@ -41,7 +40,6 @@ public class ServerBridgeListener implements Listener
 			str += Herochat.getInstance().getConfig().getString("format.default");
 		else
 			str += event.getFormat();
-
 		str = str.replace("{nick}", "");
 		str = str.replace("{prefix}", p.getPrefix());
 		str = str.replace("{suffix}", p.getSuffix());
@@ -52,26 +50,24 @@ public class ServerBridgeListener implements Listener
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerJoin(final PlayerJoinEvent event) {
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
 		// If they want to join without announce, abort everything, let Vanish handle it.
 		if (VanishPerms.joinWithoutAnnounce(player))
 			return;
 		event.setJoinMessage(null);
-		String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";
-		Optional<String> country = hook.getCountry(player.getAddress().getAddress());
-		String message = ChatColor.GOLD + player.getName() + ChatColor.GRAY + " joined " + ChatColor.GOLD + side;
+		final String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";
+		final Optional<String> country = hook.getCountry(player.getAddress().getAddress());
+		final String message = ChatColor.GOLD + player.getName() + ChatColor.GRAY + " joined " + ChatColor.GOLD + side;
 		if (country.isPresent()) {
-			String toSend = message + ChatColor.GRAY + " from " + ChatColor.GOLD + country.get();
+			final String toSend = message + ChatColor.GRAY + " from " + ChatColor.GOLD + country.get();
 			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketJoinServer(toSend));
-			for (Player ply : Bukkit.getOnlinePlayers()) {
+			for (final Player ply : Bukkit.getOnlinePlayers())
 				ply.sendMessage(toSend);
-			}
 		} else {
-			String toSend = message;
+			final String toSend = message;
 			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketJoinServer(toSend));
-			for (Player ply : Bukkit.getOnlinePlayers()) {
+			for (final Player ply : Bukkit.getOnlinePlayers())
 				ply.sendMessage(toSend);
-			}
 		}
 	}
 }

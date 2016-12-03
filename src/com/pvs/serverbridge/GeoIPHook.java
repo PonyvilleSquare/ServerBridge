@@ -16,31 +16,28 @@ public class GeoIPHook {
 
 	public GeoIPHook() {
 		try {
-			 geoiplookup = Optional.<GeoIPLookup> ofNullable(JavaPlugin.getPlugin(GeoIPTools.class).getGeoIPLookup());
-			if(!geoiplookup.isPresent())
+			geoiplookup = Optional.<GeoIPLookup>ofNullable(JavaPlugin.getPlugin(GeoIPTools.class).getGeoIPLookup());
+			if (!geoiplookup.isPresent())
 				Log.log("Could not load GeoIPTools!", Level.SEVERE);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Log.log("An error occured loading GeoIPTools. Is the plugin loaded?", Level.SEVERE);
 			e.printStackTrace();
 		}
 	}
 
-	public Optional<String> getCountry(InetAddress ip) {
-		if(!geoiplookup.isPresent())
-			return Optional.<String> empty();
-		Optional<Country> countryop = Optional.<Country>ofNullable(geoiplookup.get().getCountry(ip));
+	public Optional<String> getCountry(final InetAddress ip) {
+		if (!geoiplookup.isPresent())
+			return Optional.<String>empty();
+		final Optional<Country> countryop = Optional.<Country>ofNullable(geoiplookup.get().getCountry(ip));
 		String country = null;
 		if (countryop.isPresent()) {
 			country = countryop.get().getName();
-			if (country.equals("N/A")) {
+			if (country.equals("N/A"))
 				country = null;
-			}
-			if (country.equals("Korea, Republic of")) {
+			if (country.equals("Korea, Republic of"))
 				country = "Republic of Korea";
-			}
-			if (country.equals("Korea, Democratic People's Republic of")) {
+			if (country.equals("Korea, Democratic People's Republic of"))
 				country = "Democratic People's Republic of Korea";
-			}
 		}
 		return Optional.<String>ofNullable(country);
 	}

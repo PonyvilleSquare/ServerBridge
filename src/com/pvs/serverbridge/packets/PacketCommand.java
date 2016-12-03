@@ -10,47 +10,39 @@ import com.google.common.base.Joiner;
 import com.pvs.serverbridge.Log;
 import com.pvs.serverbridge.ServerBridgePlugin;
 
-public class PacketCommand extends Packet
-{
+public class PacketCommand extends Packet {
 	private final UUID sender;
 	private final String command;
 
-	public PacketCommand(final Player sender, final String command)
-	{
+	public PacketCommand(final Player sender, final String command) {
 		this(sender.getUniqueId(), command);
 	}
 
-	public PacketCommand(final UUID sender, final String command)
-	{
+	public PacketCommand(final UUID sender, final String command) {
 		this.sender = sender;
 		this.command = command;
 	}
 
 	/** Returns the command that is associated with this packet */
-	public final String getCommand()
-	{
+	public final String getCommand() {
 		return command;
 	}
 
 	/** Returns the sender that is associated with this command */
-	public final UUID getSender()
-	{
+	public final UUID getSender() {
 		return sender;
 	}
 
 	// //////////////////////////////////////////////////////////////
-	public static class Parser extends Packet.Parser
-	{
+	public static class Parser extends Packet.Parser {
 		@Override
-		public String write(final Packet packet)
-		{
+		public String write(final Packet packet) {
 			final PacketCommand p = (PacketCommand) packet;
 			return String.format("%s %s", p.getSender() == null ? "null" : p.getSender().toString(), p.getCommand());
 		}
 
 		@Override
-		public Packet read(final String string)
-		{
+		public Packet read(final String string) {
 			// Validate that the packet is properly structured
 			final String[] components = string.split(" ");
 			if (components.length < 2)
@@ -63,13 +55,11 @@ public class PacketCommand extends Packet
 		}
 	}
 
-	public static class Processor extends Packet.Processor
-	{
+	public static class Processor extends Packet.Processor {
 		@Override
-		public void process(final Packet packet)
-		{
+		public void process(final Packet packet) {
 			final PacketCommand p = (PacketCommand) packet;
-			final String sender = (p.getSender() == null ? "console" : Bukkit.getOfflinePlayer(p.getSender()).getName());
+			final String sender = p.getSender() == null ? "console" : Bukkit.getOfflinePlayer(p.getSender()).getName();
 			Log.log("Attempting to execute command " + p.getCommand() + " that was sent by " + sender);
 			if (Bukkit.dispatchCommand(Bukkit.getConsoleSender(), p.getCommand()))
 				ServerBridgePlugin.getPacketHandler().sendPacket(new PacketCommandReply(p.getSender(), true));

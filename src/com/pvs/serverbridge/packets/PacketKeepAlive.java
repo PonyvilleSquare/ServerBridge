@@ -4,28 +4,22 @@ import com.pvs.serverbridge.ServerBridgePlugin;
 import com.pvs.serverbridge.communication.PacketHandlerMaster;
 import com.pvs.serverbridge.communication.PacketHandlerSlave;
 
-public class PacketKeepAlive extends Packet
-{
-	public static class Parser extends Packet.Parser
-	{
+public class PacketKeepAlive extends Packet {
+	public static class Parser extends Packet.Parser {
 		@Override
-		public String write(final Packet packet)
-		{
+		public String write(final Packet packet) {
 			return "Payload";
 		}
 
 		@Override
-		public Packet read(final String string)
-		{
+		public Packet read(final String string) {
 			return new PacketKeepAlive();
 		}
 	}
 
-	public static class Processor extends Packet.Processor
-	{
+	public static class Processor extends Packet.Processor {
 		@Override
-		public void process(final Packet packet)
-		{
+		public void process(final Packet packet) {
 			if (packet.isMasterSide())
 				((PacketHandlerMaster) ServerBridgePlugin.getPacketHandler()).keepAlive();
 			else

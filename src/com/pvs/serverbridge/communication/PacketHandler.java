@@ -16,8 +16,7 @@ import com.pvs.serverbridge.packets.Packet;
 /**
  * The packet handler will manage the packets received and sent; it will also allow packets to be processed by a processing class
  */
-public abstract class PacketHandler
-{
+public abstract class PacketHandler {
 	// Streams, will be used to transmit packages, and receive them
 	protected PrintWriter out;
 	protected BufferedReader in;
@@ -25,14 +24,12 @@ public abstract class PacketHandler
 	// Core variables
 	private final boolean isMasterSide;
 
-	protected PacketHandler(final boolean isMasterSide)
-	{
+	protected PacketHandler(final boolean isMasterSide) {
 		this.isMasterSide = isMasterSide;
 	}
 
 	/** Called every now and then, used to process packets when they are found */
-	public final void onTick()
-	{
+	public final void onTick() {
 		while (!incoming.isEmpty())
 			readPacket(incoming.poll());
 	}
@@ -52,29 +49,21 @@ public abstract class PacketHandler
 	private Thread worker;
 
 	/** Sets up the working threads, allowing the system to be multithreaded */
-	private final void initWorkerThreads()
-	{
-		worker = new Thread()
-		{
+	private final void initWorkerThreads() {
+		worker = new Thread() {
 			@Override
-			public void run()
-			{
+			public void run() {
 				while (isOpen)
-					try
-					{
+					try {
 						while (in != null && in.ready())
 							incoming.add(in.readLine());
 						while (out != null && !outgoing.isEmpty())
 							out.println(outgoing.remove());
 						onUpdate();
 						sleep(1000 / 5);
-					}
-					catch (final IOException e)
-					{
+					} catch (final IOException e) {
 						e.printStackTrace();
-					}
-					catch (final InterruptedException e)
-					{
+					} catch (final InterruptedException e) {
 						e.printStackTrace();
 					}
 			}
@@ -91,16 +80,14 @@ public abstract class PacketHandler
 	private static final String spacer = "@#@";
 
 	/** Registers a new packet for use within the system */
-	public final void registerPacket(final Class<? extends Packet> packetClass, final Packet.Parser parser, final Packet.Processor processor, final String identifier)
-	{
+	public final void registerPacket(final Class<? extends Packet> packetClass, final Packet.Parser parser, final Packet.Processor processor, final String identifier) {
 		packetNames.put(packetClass, identifier);
 		packetParsers.put(identifier, parser);
 		packetProcessors.put(identifier, processor);
 	}
 
 	/** Sends a packet to the other side */
-	public final void sendPacket(final Packet packet)
-	{
+	public final void sendPacket(final Packet packet) {
 		// Validate that the packet is valid
 		if (packet == null)
 			return;
@@ -115,8 +102,7 @@ public abstract class PacketHandler
 	}
 
 	/** Processes packets that are received */
-	private final void readPacket(final String string)
-	{
+	private final void readPacket(final String string) {
 		Log.debug("Received packet '" + string + "'");
 
 		// Validate that the received string is valid
@@ -131,21 +117,17 @@ public abstract class PacketHandler
 		final String payload = Joiner.on(spacer).join(ArrayUtils.subarray(components, 1, components.length));
 		final Packet.Parser parser = packetParsers.get(identifier);
 		final Packet.Processor processor = packetProcessors.get(identifier);
-		if (parser == null || processor == null)
-		{
+		if (parser == null || processor == null) {
 			Log.log("Packet didn't have any parser and/or processor associated with it!", Level.SEVERE);
 			return;
 		}
 
 		// Parse packet
-		try
-		{
+		try {
 			final Packet packet = parser.read(payload);
 			packet.setSide(isMasterSide);
 			processor.process(packet);
-		}
-		catch (final Exception exception)
-		{
+		} catch (final Exception exception) {
 			Log.log(String.format("Failed to parse packet '%s' with payload '%s'!", identifier, payload), Level.SEVERE);
 			Log.log(exception.getLocalizedMessage(), Level.SEVERE);
 			exception.printStackTrace();
@@ -153,8 +135,7 @@ public abstract class PacketHandler
 	}
 
 	/** Clears all the packets that are in the queue */
-	protected final void clearPackets()
-	{
+	protected final void clearPackets() {
 		incoming.clear();
 		outgoing.clear();
 	}
@@ -164,37 +145,26 @@ public abstract class PacketHandler
 	// ///////////////////////////////////////////////////////////////////////////////
 
 	/** Opens a connection; the ip doesn't matter for the master side, only the client needs the ip */
-	public final void open(final String ip, final int port)
-	{
-		try
-		{
+	public final void open(final String ip, final int port) {
+		try {
 			onOpen(ip, port);
 			initWorkerThreads();
-		}
-		catch (final IOException e)
-		{
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	/** Closes the connection */
-	public final void close()
-	{
+	public final void close() {
 		isOpen = false;
-		try
-		{
+		try {
 			worker.join();
-		}
-		catch (final InterruptedException e)
-		{
+		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
-		try
-		{
+		try {
 			onClose();
-		}
-		catch (final IOException e)
-		{
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}

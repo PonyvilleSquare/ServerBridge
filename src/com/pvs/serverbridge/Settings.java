@@ -2,8 +2,7 @@ package com.pvs.serverbridge;
 
 import java.util.Collection;
 
-public class Settings
-{
+public class Settings {
 	// Control variables
 	public String side;
 	public boolean isMaster;
@@ -12,17 +11,15 @@ public class Settings
 	public String ip;
 	public int retryTime;
 	public Collection<String> whitelistedChannels;
-	private ServerBridgePlugin plugin;
+	private final ServerBridgePlugin plugin;
 
-	public Settings(ServerBridgePlugin p)
-	{
+	public Settings(final ServerBridgePlugin p) {
 		plugin = p;
 		reload();
 	}
 
 	/** Reloads the configuration file */
-	public void reload()
-	{
+	public void reload() {
 		plugin.reloadConfig();
 		plugin.saveConfig();
 

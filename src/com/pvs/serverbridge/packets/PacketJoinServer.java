@@ -5,22 +5,22 @@ import org.bukkit.entity.Player;
 
 public class PacketJoinServer extends Packet {
 
-	private String message;
+	private final String message;
 
-	public PacketJoinServer(String message) {
+	public PacketJoinServer(final String message) {
 		this.message = message;
 	}
 
 	public static class Parser extends Packet.Parser {
 
 		@Override
-		public String write(Packet packet) {
+		public String write(final Packet packet) {
 			final PacketJoinServer p = (PacketJoinServer) packet;
 			return p.message;
 		}
 
 		@Override
-		public Packet read(String string) {
+		public Packet read(final String string) {
 			return new PacketJoinServer(string);
 		}
 	}
@@ -28,9 +28,9 @@ public class PacketJoinServer extends Packet {
 	public static class Processor extends Packet.Processor {
 
 		@Override
-		public void process(Packet packet) {
+		public void process(final Packet packet) {
 			final PacketJoinServer p = (PacketJoinServer) packet;
-			for (Player ply : Bukkit.getOnlinePlayers())
+			for (final Player ply : Bukkit.getOnlinePlayers())
 				ply.sendMessage(p.message);
 		}
 

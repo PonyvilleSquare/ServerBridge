@@ -12,20 +12,17 @@ import com.google.common.base.Joiner;
 import com.pvs.serverbridge.ServerBridgePlugin;
 import com.pvs.serverbridge.packets.PacketPrivateMessage;
 
-public class CommandPrivateMessage implements CommandExecutor
-{
+public class CommandPrivateMessage implements CommandExecutor {
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
-	{
+	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 		if (args.length < 2)
 			return false;
-		
+
 		final String messageSender = sender.getName();
 		final String receiver = args[0];
 		final String message = Joiner.on(" ").join(ArrayUtils.subarray(args, 1, args.length));
 
-		if (sendMessage(messageSender, receiver, message))
-		{
+		if (sendMessage(messageSender, receiver, message)) {
 			if (!verifyMessage(sender, receiver, message, false))
 				sender.sendMessage(ChatColor.RED + "Unexpected error has ocurred! The message was attempted being sent, but couldn't be verified as received");
 			return true;
@@ -36,9 +33,8 @@ public class CommandPrivateMessage implements CommandExecutor
 	}
 
 	/** Transmits a message from the sender to the receiver; returns true if the message was sent */
-	public final static boolean sendMessage(String sender, String receiver, String message)
-	{
-		Player target = Bukkit.getPlayer(receiver);
+	public final static boolean sendMessage(final String sender, final String receiver, final String message) {
+		final Player target = Bukkit.getPlayer(receiver);
 		if (target == null)
 			return false;
 		target.sendMessage(ChatColor.LIGHT_PURPLE + sender + " -> you: " + ChatColor.translateAlternateColorCodes('&', message));
@@ -46,13 +42,12 @@ public class CommandPrivateMessage implements CommandExecutor
 	}
 
 	/** Displays the message as being sent to the receiver */
-	public final static boolean verifyMessage(CommandSender sender, String receiver, String message, boolean guaranteedSafe)
-	{
-		Player target = Bukkit.getPlayer(receiver);
+	public final static boolean verifyMessage(final CommandSender sender, final String receiver, final String message, final boolean guaranteedSafe) {
+		final Player target = Bukkit.getPlayer(receiver);
 		if (target == null && !guaranteedSafe)
 			return false;
-		String senderName = sender.getName();
-		String receiverName = guaranteedSafe ? receiver : target.getName();
+		final String senderName = sender.getName();
+		final String receiverName = guaranteedSafe ? receiver : target.getName();
 
 		if (!guaranteedSafe)
 			ServerBridgePlugin.getRawLogger().info(senderName + " -> " + receiverName + ": " + ChatColor.stripColor(message));

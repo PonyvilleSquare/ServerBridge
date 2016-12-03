@@ -9,13 +9,10 @@ import org.bukkit.entity.Player;
 import com.pvs.serverbridge.ServerBridgePlugin;
 import com.pvs.serverbridge.packets.PacketGList;
 
-public class CommandGList implements CommandExecutor
-{
+public class CommandGList implements CommandExecutor {
 	@Override
-	public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args)
-	{
-		if (!(sender instanceof Player))
-		{
+	public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+		if (!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.RED + "This command may only be used by a player");
 			return true;
 		}
