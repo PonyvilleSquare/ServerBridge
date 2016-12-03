@@ -1,7 +1,9 @@
 name: ServerBridge
 authors: [Hepolite, SweetieBelle]
 main: com.pvs.serverbridge.ServerBridgePlugin
-version: 1.0.2
+version: 1.0.3
+depend: [Herochat, VanishNoPacket]
+softdepend: [GeoIPTools]
 description: >
              Adds a communication bridge between two servers
 commands:

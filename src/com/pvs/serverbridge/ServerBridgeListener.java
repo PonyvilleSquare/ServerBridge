@@ -1,19 +1,32 @@
 package com.pvs.serverbridge;
 
+import java.util.Optional;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.kitteh.vanish.VanishPerms;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import com.dthielke.Herochat;
 import com.dthielke.api.ChatResult;
 import com.dthielke.api.event.ChannelChatEvent;
+import com.pvs.serverbridge.packets.PacketJoinServer;
 import com.pvs.serverbridge.packets.PacketMessage;
 
 public class ServerBridgeListener implements Listener
 {
+	private GeoIPHook hook;
+
+	public ServerBridgeListener() {
+		hook = new GeoIPHook();
+	}
+
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void herochatMessage(final ChannelChatEvent event)
 	{
@@ -35,5 +48,30 @@ public class ServerBridgeListener implements Listener
 		str = str.replace("{sender}", event.getChatter().getName());
 		str = str.replace("{msg}", event.getMessage());
 		ServerBridgePlugin.getPacketHandler().sendPacket(new PacketMessage(event.getChannel().getName() + " " + str));
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void onPlayerJoin(final PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		// If they want to join without announce, abort everything, let Vanish handle it.
+		if (VanishPerms.joinWithoutAnnounce(player))
+			return;
+		event.setJoinMessage(null);
+		String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";
+		Optional<String> country = hook.getCountry(player.getAddress().getAddress());
+		String message = ChatColor.GOLD + player.getName() + ChatColor.GRAY + " joined " + ChatColor.GOLD + side;
+		if (country.isPresent()) {
+			String toSend = message + ChatColor.GRAY + " from " + ChatColor.GOLD + country.get();
+			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketJoinServer(toSend));
+			for (Player ply : Bukkit.getOnlinePlayers()) {
+				ply.sendMessage(toSend);
+			}
+		} else {
+			String toSend = message;
+			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketJoinServer(toSend));
+			for (Player ply : Bukkit.getOnlinePlayers()) {
+				ply.sendMessage(toSend);
+			}
+		}
 	}
 }
