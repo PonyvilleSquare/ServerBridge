@@ -3,11 +3,11 @@ package com.pvs.serverbridge.packets;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class PacketJoinServer extends Packet {
+public class PacketServerMessages extends Packet {
 
 	private final String message;
 
-	public PacketJoinServer(final String message) {
+	public PacketServerMessages(final String message) {
 		this.message = message;
 	}
 
@@ -15,13 +15,13 @@ public class PacketJoinServer extends Packet {
 
 		@Override
 		public String write(final Packet packet) {
-			final PacketJoinServer p = (PacketJoinServer) packet;
+			final PacketServerMessages p = (PacketServerMessages) packet;
 			return p.message;
 		}
 
 		@Override
 		public Packet read(final String string) {
-			return new PacketJoinServer(string);
+			return new PacketServerMessages(string);
 		}
 	}
 
@@ -29,7 +29,7 @@ public class PacketJoinServer extends Packet {
 
 		@Override
 		public void process(final Packet packet) {
-			final PacketJoinServer p = (PacketJoinServer) packet;
+			final PacketServerMessages p = (PacketServerMessages) packet;
 			for (final Player ply : Bukkit.getOnlinePlayers())
 				ply.sendMessage(p.message);
 		}

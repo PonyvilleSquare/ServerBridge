@@ -9,12 +9,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.kitteh.vanish.VanishPerms;
 
 import com.dthielke.Herochat;
 import com.dthielke.api.ChatResult;
 import com.dthielke.api.event.ChannelChatEvent;
-import com.pvs.serverbridge.packets.PacketJoinServer;
+import com.pvs.serverbridge.packets.PacketServerMessages;
 import com.pvs.serverbridge.packets.PacketMessage;
 
 import ru.tehkode.permissions.PermissionUser;
@@ -60,14 +61,25 @@ public class ServerBridgeListener implements Listener {
 		final String message = ChatColor.GOLD + player.getName() + ChatColor.GRAY + " joined " + ChatColor.GOLD + side;
 		if (country.isPresent()) {
 			final String toSend = message + ChatColor.GRAY + " from " + ChatColor.GOLD + country.get();
-			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketJoinServer(toSend));
+			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketServerMessages(toSend));
 			for (final Player ply : Bukkit.getOnlinePlayers())
 				ply.sendMessage(toSend);
 		} else {
 			final String toSend = message;
-			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketJoinServer(toSend));
+			ServerBridgePlugin.getPacketHandler().sendPacket(new PacketServerMessages(toSend));
 			for (final Player ply : Bukkit.getOnlinePlayers())
 				ply.sendMessage(toSend);
 		}
+	}
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void onPlayerJoin(final PlayerQuitEvent event) {
+		final Player player = event.getPlayer();
+		// If they want to quit vanished or something like that, let Vanish handle it.
+		if (VanishPerms.silentQuit(player))
+			return;
+		event.setQuitMessage(null);
+		final String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";
+		final String message = ChatColor.YELLOW + player.getName() + " left " + side;
+		ServerBridgePlugin.getPacketHandler().sendPacket(new PacketServerMessages(message));
 	}
 }

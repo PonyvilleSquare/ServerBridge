@@ -15,7 +15,7 @@ import com.pvs.serverbridge.packets.PacketCommand;
 import com.pvs.serverbridge.packets.PacketCommandReply;
 import com.pvs.serverbridge.packets.PacketGList;
 import com.pvs.serverbridge.packets.PacketGListReply;
-import com.pvs.serverbridge.packets.PacketJoinServer;
+import com.pvs.serverbridge.packets.PacketServerMessages;
 import com.pvs.serverbridge.packets.PacketKeepAlive;
 import com.pvs.serverbridge.packets.PacketMessage;
 import com.pvs.serverbridge.packets.PacketPrivateMessage;
@@ -54,7 +54,7 @@ public class ServerBridgePlugin extends JavaPlugin {
 		packetHandler.registerPacket(PacketGListReply.class, new PacketGListReply.Parser(), new PacketGListReply.Processor(), "GLR");
 		packetHandler.registerPacket(PacketPrivateMessage.class, new PacketPrivateMessage.Parser(), new PacketPrivateMessage.Processor(), "PM");
 		packetHandler.registerPacket(PacketPrivateMessageReply.class, new PacketPrivateMessageReply.Parser(), new PacketPrivateMessageReply.Processor(), "PMR");
-		packetHandler.registerPacket(PacketJoinServer.class, new PacketJoinServer.Parser(), new PacketJoinServer.Processor(), "JOIN");
+		packetHandler.registerPacket(PacketServerMessages.class, new PacketServerMessages.Parser(), new PacketServerMessages.Processor(), "JOIN");
 
 		// Set up the task that ticks the packet handler, and register the listener
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> packetHandler.onTick(), 0, 20);
