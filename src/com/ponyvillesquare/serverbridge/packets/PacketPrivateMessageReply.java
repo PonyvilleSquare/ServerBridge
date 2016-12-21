@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.packets;
+package com.ponyvillesquare.serverbridge.packets;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.google.common.base.Joiner;
-import com.pvs.serverbridge.commands.CommandPrivateMessage;
+import com.ponyvillesquare.serverbridge.commands.CommandPrivateMessage;
 
 public class PacketPrivateMessageReply extends Packet {
 	private final String sender;

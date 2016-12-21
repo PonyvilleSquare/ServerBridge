@@ -4,22 +4,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.pvs.serverbridge.commands.CommandGList;
-import com.pvs.serverbridge.commands.CommandPrivateMessage;
-import com.pvs.serverbridge.commands.CommandReload;
-import com.pvs.serverbridge.commands.CommandRunCommand;
-import com.pvs.serverbridge.communication.PacketHandler;
-import com.pvs.serverbridge.communication.PacketHandlerMaster;
-import com.pvs.serverbridge.communication.PacketHandlerSlave;
-import com.pvs.serverbridge.packets.PacketCommand;
-import com.pvs.serverbridge.packets.PacketCommandReply;
-import com.pvs.serverbridge.packets.PacketGList;
-import com.pvs.serverbridge.packets.PacketGListReply;
-import com.pvs.serverbridge.packets.PacketServerMessages;
-import com.pvs.serverbridge.packets.PacketKeepAlive;
-import com.pvs.serverbridge.packets.PacketMessage;
-import com.pvs.serverbridge.packets.PacketPrivateMessage;
-import com.pvs.serverbridge.packets.PacketPrivateMessageReply;
+import com.ponyvillesquare.serverbridge.commands.CommandGList;
+import com.ponyvillesquare.serverbridge.commands.CommandPrivateMessage;
+import com.ponyvillesquare.serverbridge.commands.CommandReload;
+import com.ponyvillesquare.serverbridge.commands.CommandRunCommand;
+import com.ponyvillesquare.serverbridge.communication.PacketHandler;
+import com.ponyvillesquare.serverbridge.communication.PacketHandlerMaster;
+import com.ponyvillesquare.serverbridge.communication.PacketHandlerSlave;
+import com.ponyvillesquare.serverbridge.packets.PacketCommand;
+import com.ponyvillesquare.serverbridge.packets.PacketCommandReply;
+import com.ponyvillesquare.serverbridge.packets.PacketGList;
+import com.ponyvillesquare.serverbridge.packets.PacketGListReply;
+import com.ponyvillesquare.serverbridge.packets.PacketServerMessages;
+import com.ponyvillesquare.serverbridge.packets.PacketKeepAlive;
+import com.ponyvillesquare.serverbridge.packets.PacketMessage;
+import com.ponyvillesquare.serverbridge.packets.PacketPrivateMessage;
+import com.ponyvillesquare.serverbridge.packets.PacketPrivateMessageReply;
 
 public class ServerBridgePlugin extends JavaPlugin {
 	private static ServerBridgePlugin instance;

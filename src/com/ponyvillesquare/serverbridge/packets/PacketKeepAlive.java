@@ -1,8 +1,8 @@
-package com.pvs.serverbridge.packets;
+package com.ponyvillesquare.serverbridge.packets;
 
 import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
-import com.pvs.serverbridge.communication.PacketHandlerMaster;
-import com.pvs.serverbridge.communication.PacketHandlerSlave;
+import com.ponyvillesquare.serverbridge.communication.PacketHandlerMaster;
+import com.ponyvillesquare.serverbridge.communication.PacketHandlerSlave;
 
 public class PacketKeepAlive extends Packet {
 	public static class Parser extends Packet.Parser {

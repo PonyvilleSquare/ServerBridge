@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.packets;
+package com.ponyvillesquare.serverbridge.packets;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;

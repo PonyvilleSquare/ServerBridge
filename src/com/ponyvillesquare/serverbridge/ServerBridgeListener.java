@@ -15,8 +15,8 @@ import org.kitteh.vanish.VanishPerms;
 import com.dthielke.Herochat;
 import com.dthielke.api.ChatResult;
 import com.dthielke.api.event.ChannelChatEvent;
-import com.pvs.serverbridge.packets.PacketServerMessages;
-import com.pvs.serverbridge.packets.PacketMessage;
+import com.ponyvillesquare.serverbridge.packets.PacketServerMessages;
+import com.ponyvillesquare.serverbridge.packets.PacketMessage;
 
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;

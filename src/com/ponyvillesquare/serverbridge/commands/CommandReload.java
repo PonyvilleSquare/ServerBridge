@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.commands;
+package com.ponyvillesquare.serverbridge.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

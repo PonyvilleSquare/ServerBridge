@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.commands;
+package com.ponyvillesquare.serverbridge.commands;
 
 import java.util.UUID;
 
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.google.common.base.Joiner;
 import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
-import com.pvs.serverbridge.packets.PacketCommand;
+import com.ponyvillesquare.serverbridge.packets.PacketCommand;
 
 public class CommandRunCommand implements CommandExecutor {
 	@Override

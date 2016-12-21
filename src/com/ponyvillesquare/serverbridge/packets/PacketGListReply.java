@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.packets;
+package com.ponyvillesquare.serverbridge.packets;
 
 import java.util.LinkedList;
 import java.util.List;

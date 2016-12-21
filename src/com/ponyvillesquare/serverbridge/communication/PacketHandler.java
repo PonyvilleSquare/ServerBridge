@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.communication;
+package com.ponyvillesquare.serverbridge.communication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import org.apache.commons.lang.ArrayUtils;
 
 import com.google.common.base.Joiner;
 import com.ponyvillesquare.serverbridge.Log;
-import com.pvs.serverbridge.packets.Packet;
+import com.ponyvillesquare.serverbridge.packets.Packet;
 
 /**
  * The packet handler will manage the packets received and sent; it will also allow packets to be processed by a processing class

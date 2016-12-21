@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.packets;
+package com.ponyvillesquare.serverbridge.packets;
 
 import java.util.Collection;
 import java.util.UUID;

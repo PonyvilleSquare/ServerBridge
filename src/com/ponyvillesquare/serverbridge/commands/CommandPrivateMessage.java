@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.commands;
+package com.ponyvillesquare.serverbridge.commands;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.google.common.base.Joiner;
 import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
-import com.pvs.serverbridge.packets.PacketPrivateMessage;
+import com.ponyvillesquare.serverbridge.packets.PacketPrivateMessage;
 
 public class CommandPrivateMessage implements CommandExecutor {
 	@Override

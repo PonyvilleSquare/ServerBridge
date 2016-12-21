@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.commands;
+package com.ponyvillesquare.serverbridge.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
-import com.pvs.serverbridge.packets.PacketGList;
+import com.ponyvillesquare.serverbridge.packets.PacketGList;
 
 public class CommandGList implements CommandExecutor {
 	@Override

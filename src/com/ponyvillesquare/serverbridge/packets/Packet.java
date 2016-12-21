@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.packets;
+package com.ponyvillesquare.serverbridge.packets;
 
 public abstract class Packet {
 	private boolean isMasterSide;

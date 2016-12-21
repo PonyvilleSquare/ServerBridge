@@ -1,4 +1,4 @@
-package com.pvs.serverbridge.packets;
+package com.ponyvillesquare.serverbridge.packets;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
