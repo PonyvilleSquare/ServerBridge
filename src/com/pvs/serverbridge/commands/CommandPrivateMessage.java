@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.google.common.base.Joiner;
-import com.pvs.serverbridge.ServerBridgePlugin;
+import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
 import com.pvs.serverbridge.packets.PacketPrivateMessage;
 
 public class CommandPrivateMessage implements CommandExecutor {

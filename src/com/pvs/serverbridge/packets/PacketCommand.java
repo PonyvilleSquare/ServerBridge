@@ -7,8 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.google.common.base.Joiner;
-import com.pvs.serverbridge.Log;
-import com.pvs.serverbridge.ServerBridgePlugin;
+import com.ponyvillesquare.serverbridge.Log;
+import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
 
 public class PacketCommand extends Packet {
 	private final UUID sender;

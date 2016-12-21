@@ -1,4 +1,4 @@
-package com.pvs.serverbridge;
+package com.ponyvillesquare.serverbridge;
 
 import java.net.InetAddress;
 import java.util.Optional;

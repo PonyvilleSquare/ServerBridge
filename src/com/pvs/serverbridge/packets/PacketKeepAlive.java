@@ -1,6 +1,6 @@
 package com.pvs.serverbridge.packets;
 
-import com.pvs.serverbridge.ServerBridgePlugin;
+import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
 import com.pvs.serverbridge.communication.PacketHandlerMaster;
 import com.pvs.serverbridge.communication.PacketHandlerSlave;
 

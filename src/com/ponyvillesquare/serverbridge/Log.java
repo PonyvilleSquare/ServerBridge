@@ -1,4 +1,4 @@
-package com.pvs.serverbridge;
+package com.ponyvillesquare.serverbridge;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

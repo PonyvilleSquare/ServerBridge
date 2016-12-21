@@ -9,8 +9,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.logging.Level;
 
-import com.pvs.serverbridge.Log;
-import com.pvs.serverbridge.ServerBridgePlugin;
+import com.ponyvillesquare.serverbridge.Log;
+import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
 import com.pvs.serverbridge.packets.PacketKeepAlive;
 
 public class PacketHandlerSlave extends PacketHandler {

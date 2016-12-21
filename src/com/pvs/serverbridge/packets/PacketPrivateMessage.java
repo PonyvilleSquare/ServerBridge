@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.google.common.base.Joiner;
-import com.pvs.serverbridge.ServerBridgePlugin;
+import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
 import com.pvs.serverbridge.commands.CommandPrivateMessage;
 
 public class PacketPrivateMessage extends Packet {
