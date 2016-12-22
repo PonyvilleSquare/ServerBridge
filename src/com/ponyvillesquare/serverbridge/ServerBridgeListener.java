@@ -81,5 +81,7 @@ public class ServerBridgeListener implements Listener {
 		final String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";
 		final String message = ChatColor.YELLOW + player.getName() + " left " + side;
 		ServerBridgePlugin.getPacketHandler().sendPacket(new PacketServerMessages(message));
+		for (final Player ply : Bukkit.getOnlinePlayers())
+			ply.sendMessage(message);
 	}
 }
