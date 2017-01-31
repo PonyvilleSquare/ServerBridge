@@ -13,7 +13,7 @@ public class CommandGList implements CommandExecutor {
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ChatColor.RED + "This command may only be used by a player");
+			sender.sendMessage(ChatColor.RED + "This command may only be used by a player. This is because only players have UUIDs that can be processed.");
 			return true;
 		}
 
