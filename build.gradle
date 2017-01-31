@@ -1,0 +1,36 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+}
+
+group = 'com.ponyvillesquare'
+version = '1.0.4'
+
+repositories {
+	jcenter()
+	maven {
+		name 'spigot-repo'
+		url 'https://hub.spigotmc.org/nexus/content/repositories/public/'
+	}
+	maven {
+		name 'pex-repo'
+		url 'http://pex-repo.aoeu.xyz'
+	}
+}
+dependencies {
+	compile 'org.bukkit:bukkit:1.11.2-R0.1-SNAPSHOT'
+	compile 'ru.tehkode:PermissionsEx:1.23.1'
+	compile 'org.apache.logging.log4j:log4j-api:2.0-beta9'
+	compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+processResources {
+	inputs.properties version: project.version
+	from (sourceSets.main.resources.srcDirs) {
+		include 'plugin.yml'
+		expand version:project.version
+	}
+	from (sourceSets.main.resources.srcDirs) {
+		exclude 'plugin.yml'
+	}
+}

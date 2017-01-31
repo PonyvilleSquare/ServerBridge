@@ -1,7 +1,7 @@
 name: ServerBridge
 authors: [Hepolite, SweetieBelle]
 main: com.ponyvillesquare.serverbridge.ServerBridgePlugin
-version: 1.0.4
+version: $version
 depend: [Herochat, VanishNoPacket]
 softdepend: [GeoIPTools]
 description: >
