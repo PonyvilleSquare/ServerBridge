@@ -5,8 +5,9 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.kitteh.vanish.VanishPerms;
-
+import org.kitteh.vanish.VanishPlugin;
 import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
 
 public class PacketGList extends Packet {
@@ -49,7 +50,7 @@ public class PacketGList extends Packet {
             final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
             final String[] playerNames = new String[players.size()];
             for (final Player player : players)
-                if (VanishPerms.canList(Bukkit.getPlayer(p.sender)))
+                if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player) && VanishPerms.canList(Bukkit.getPlayer(p.sender)))
                     playerNames[i++] = player.getName();
 
             ServerBridgePlugin.getPacketHandler().sendPacket(new PacketGListReply(p.getSender(), playerNames));

@@ -6,7 +6,9 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.kitteh.vanish.VanishPerms;
+import org.kitteh.vanish.VanishPlugin;
 
 import com.google.common.base.Joiner;
 
@@ -67,7 +69,7 @@ public class PacketGListReply extends Packet {
 
             final List<String> playerNames = new LinkedList<String>();
             for (final Player player : Bukkit.getOnlinePlayers())
-                if (VanishPerms.canList(Bukkit.getPlayer(p.sender)))
+                if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player) && VanishPerms.canList(Bukkit.getPlayer(p.sender)))
                     playerNames.add(player.getName());
             for (final String name : p.getPlayers())
                 playerNames.add(name);
