@@ -2,14 +2,17 @@ package com.ponyvillesquare.serverbridge.packets;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.kitteh.vanish.VanishManager;
-import org.kitteh.vanish.VanishPerms;
 import com.google.common.base.Joiner;
+
+import ru.tehkode.permissions.PermissionUser;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class PacketGListReply extends Packet {
     private final UUID sender;
@@ -63,14 +66,14 @@ public class PacketGListReply extends Packet {
         @Override
         public void process(final Packet packet) {
             final PacketGListReply p = (PacketGListReply) packet;
-            final Player sender = Bukkit.getPlayer(p.getSender());
+            PermissionUser sender = PermissionsEx.getPermissionManager().getUser(p.sender);
             if (sender == null)
                 return;
             final List<String> playerNames = new LinkedList<String>();
             for (final Player player : Bukkit.getOnlinePlayers()) {
                 if (vanish.isVanished(player)) {
-                    if (VanishPerms.canList(sender)) {
-                            playerNames.add(player.getName());
+                    if (sender.has("vanish.list")) {
+                        playerNames.add(player.getName());
                     }
                 } else
                     playerNames.add(player.getName());
@@ -79,8 +82,11 @@ public class PacketGListReply extends Packet {
             for (final String name : p.getPlayers())
                 playerNames.add(name);
             playerNames.sort(null);
-            sender.sendMessage("Users online:");
-            sender.sendMessage(Joiner.on(", ").join(playerNames));
+            Optional<Player> senderPly = Optional.<Player>ofNullable(sender.getPlayer());
+            if (senderPly.isPresent()) {
+                senderPly.get().sendMessage("Users online:");
+                senderPly.get().sendMessage(Joiner.on(", ").join(playerNames));
+            }
         }
     }
 

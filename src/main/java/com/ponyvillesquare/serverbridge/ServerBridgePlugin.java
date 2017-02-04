@@ -34,7 +34,8 @@ public class ServerBridgePlugin extends JavaPlugin {
 	public void onEnable() {
 		Log.initialize(this);
 		instance = this;
-		settings = new Settings(this);
+        settings = new Settings(this);
+        VanishManager vanishManager = JavaPlugin.getPlugin(VanishPlugin.class).getManager();
 		getCommand("bridgecommand").setExecutor(new CommandRunCommand());
 		getCommand("glist").setExecutor(new CommandGList());
 		getCommand("bridgereload").setExecutor(new CommandReload());
@@ -60,8 +61,7 @@ public class ServerBridgePlugin extends JavaPlugin {
 
 		// Set up the task that ticks the packet handler, and register the listener
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> packetHandler.onTick(), 0, 20);
-		getServer().getPluginManager().registerEvents(new ServerBridgeListener(), this);
-		VanishManager vanishManager = JavaPlugin.getPlugin(VanishPlugin.class).getManager();
+		getServer().getPluginManager().registerEvents(new ServerBridgeListener(vanishManager), this);
 		PacketGList.setVanish(vanishManager);
 		PacketGListReply.setVanish(vanishManager);
 	}

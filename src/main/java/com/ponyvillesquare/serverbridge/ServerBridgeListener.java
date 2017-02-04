@@ -10,10 +10,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.kitteh.vanish.VanishManager;
 import org.kitteh.vanish.VanishPerms;
-import org.kitteh.vanish.VanishPlugin;
-
 import com.dthielke.Herochat;
 import com.dthielke.api.ChatResult;
 import com.dthielke.api.event.ChannelChatEvent;
@@ -25,9 +23,11 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class ServerBridgeListener implements Listener {
 	private final GeoIPHook hook;
+    private VanishManager vanish;
 
-	public ServerBridgeListener() {
+	public ServerBridgeListener(VanishManager vanishManager) {
 		hook = new GeoIPHook();
+		vanish = vanishManager;
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -55,7 +55,7 @@ public class ServerBridgeListener implements Listener {
 	public void onPlayerJoin(final PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		// If they want to join without announce, abort everything, let Vanish handle it.
-		if (VanishPerms.joinWithoutAnnounce(player))
+		if (VanishPerms.joinWithoutAnnounce(player) || vanish.isVanished(player))
 			return;
 		event.setJoinMessage(null);
 		final String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";
@@ -77,7 +77,7 @@ public class ServerBridgeListener implements Listener {
 	public void onPlayerJoin(final PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
 		// If they want to quit vanished or something like that, let Vanish handle it.
-		if (VanishPerms.silentQuit(player) || JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player))
+		if (VanishPerms.silentQuit(player) || vanish.isVanished(player))
 			return;
 		event.setQuitMessage(null);
 		final String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";
