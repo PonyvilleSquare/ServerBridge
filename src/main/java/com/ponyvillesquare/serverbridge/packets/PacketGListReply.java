@@ -4,17 +4,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.kitteh.vanish.VanishManager;
 import org.kitteh.vanish.VanishPerms;
-import org.kitteh.vanish.VanishPlugin;
-
 import com.google.common.base.Joiner;
 
 public class PacketGListReply extends Packet {
     private final UUID sender;
     private final String[] players;
+    private static VanishManager vanish;
 
     public PacketGListReply(final Player sender, final String[] players) {
         this(sender.getUniqueId(), players);
@@ -66,15 +66,15 @@ public class PacketGListReply extends Packet {
             final Player sender = Bukkit.getPlayer(p.getSender());
             if (sender == null)
                 return;
-
             final List<String> playerNames = new LinkedList<String>();
-            for (final Player player : Bukkit.getOnlinePlayers())
-                if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player) && VanishPerms.canList(Bukkit.getPlayer(p.sender)))
-                    if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player)) {
-                        if (VanishPerms.canList(Bukkit.getPlayer(p.sender)))
+            for (final Player player : Bukkit.getOnlinePlayers()) {
+                if (vanish.isVanished(player)) {
+                    if (VanishPerms.canList(sender)) {
                             playerNames.add(player.getName());
-                    } else
-                        playerNames.add(player.getName());
+                    }
+                } else
+                    playerNames.add(player.getName());
+            }
 
             for (final String name : p.getPlayers())
                 playerNames.add(name);
@@ -82,5 +82,10 @@ public class PacketGListReply extends Packet {
             sender.sendMessage("Users online:");
             sender.sendMessage(Joiner.on(", ").join(playerNames));
         }
+    }
+
+    public static void setVanish(VanishManager vanishManager) {
+        Validate.notNull(vanishManager);
+        vanish = vanishManager;
     }
 }

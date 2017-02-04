@@ -3,15 +3,16 @@ package com.ponyvillesquare.serverbridge.packets;
 import java.util.Collection;
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.kitteh.vanish.VanishManager;
 import org.kitteh.vanish.VanishPerms;
-import org.kitteh.vanish.VanishPlugin;
 import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
 
 public class PacketGList extends Packet {
     private final UUID sender;
+    private static VanishManager vanish = null;
 
     public PacketGList(final Player sender) {
         this(sender.getUniqueId());
@@ -45,18 +46,26 @@ public class PacketGList extends Packet {
         @Override
         public void process(final Packet packet) {
             final PacketGList p = (PacketGList) packet;
-
+            final Player sender = Bukkit.getPlayer(p.getSender());
+            if (sender == null)
+                return;
             int i = 0;
             final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
             final String[] playerNames = new String[players.size()];
-            for (final Player player : players)
-                if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player)) {
-                    if (VanishPerms.canList(Bukkit.getPlayer(p.sender)))
+            for (final Player player : players) {
+                if (vanish.isVanished(player)) {
+                    if (VanishPerms.canList(sender))
                         playerNames[i++] = player.getName();
                 } else
                     playerNames[i++] = player.getName();
+            }
 
             ServerBridgePlugin.getPacketHandler().sendPacket(new PacketGListReply(p.getSender(), playerNames));
         }
+    }
+
+    public static void setVanish(VanishManager vanishManager) {
+        Validate.notNull(vanishManager);
+        vanish = vanishManager;
     }
 }

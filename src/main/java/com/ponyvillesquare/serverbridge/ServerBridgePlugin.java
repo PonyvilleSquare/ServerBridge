@@ -3,6 +3,8 @@ package com.ponyvillesquare.serverbridge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.kitteh.vanish.VanishManager;
+import org.kitteh.vanish.VanishPlugin;
 
 import com.ponyvillesquare.serverbridge.commands.CommandGList;
 import com.ponyvillesquare.serverbridge.commands.CommandPrivateMessage;
@@ -59,6 +61,9 @@ public class ServerBridgePlugin extends JavaPlugin {
 		// Set up the task that ticks the packet handler, and register the listener
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> packetHandler.onTick(), 0, 20);
 		getServer().getPluginManager().registerEvents(new ServerBridgeListener(), this);
+		VanishManager vanishManager = JavaPlugin.getPlugin(VanishPlugin.class).getManager();
+		PacketGList.setVanish(vanishManager);
+		PacketGListReply.setVanish(vanishManager);
 	}
 
 	@Override
