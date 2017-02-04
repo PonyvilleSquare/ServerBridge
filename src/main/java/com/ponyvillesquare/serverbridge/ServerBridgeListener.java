@@ -10,7 +10,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.kitteh.vanish.VanishPerms;
+import org.kitteh.vanish.VanishPlugin;
 
 import com.dthielke.Herochat;
 import com.dthielke.api.ChatResult;
@@ -75,7 +77,7 @@ public class ServerBridgeListener implements Listener {
 	public void onPlayerJoin(final PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
 		// If they want to quit vanished or something like that, let Vanish handle it.
-		if (VanishPerms.silentQuit(player))
+		if (VanishPerms.silentQuit(player) || JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player))
 			return;
 		event.setQuitMessage(null);
 		final String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";

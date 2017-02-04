@@ -70,7 +70,12 @@ public class PacketGListReply extends Packet {
             final List<String> playerNames = new LinkedList<String>();
             for (final Player player : Bukkit.getOnlinePlayers())
                 if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player) && VanishPerms.canList(Bukkit.getPlayer(p.sender)))
-                    playerNames.add(player.getName());
+                    if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player)) {
+                        if (VanishPerms.canList(Bukkit.getPlayer(p.sender)))
+                            playerNames.add(player.getName());
+                    } else
+                        playerNames.add(player.getName());
+
             for (final String name : p.getPlayers())
                 playerNames.add(name);
             playerNames.sort(null);

@@ -50,7 +50,10 @@ public class PacketGList extends Packet {
             final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
             final String[] playerNames = new String[players.size()];
             for (final Player player : players)
-                if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player) && VanishPerms.canList(Bukkit.getPlayer(p.sender)))
+                if (JavaPlugin.getPlugin(VanishPlugin.class).getManager().isVanished(player)) {
+                    if (VanishPerms.canList(Bukkit.getPlayer(p.sender)))
+                        playerNames[i++] = player.getName();
+                } else
                     playerNames[i++] = player.getName();
 
             ServerBridgePlugin.getPacketHandler().sendPacket(new PacketGListReply(p.getSender(), playerNames));
