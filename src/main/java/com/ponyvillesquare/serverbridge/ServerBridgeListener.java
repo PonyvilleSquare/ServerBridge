@@ -51,11 +51,11 @@ public class ServerBridgeListener implements Listener {
 		ServerBridgePlugin.getPacketHandler().sendPacket(new PacketMessage(event.getChannel().getName() + " " + str));
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerJoin(final PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		// If they want to join without announce, abort everything, let Vanish handle it.
-		if (VanishPerms.joinWithoutAnnounce(player) || vanish.isVanished(player))
+		if (VanishPerms.joinWithoutAnnounce(player))
 			return;
 		event.setJoinMessage(null);
 		final String side = ServerBridgePlugin.getSettings().side.equals("master") ? "Creative" : "Colonizations";
@@ -73,7 +73,7 @@ public class ServerBridgeListener implements Listener {
 				ply.sendMessage(toSend);
 		}
 	}
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerJoin(final PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
 		// If they want to quit vanished or something like that, let Vanish handle it.

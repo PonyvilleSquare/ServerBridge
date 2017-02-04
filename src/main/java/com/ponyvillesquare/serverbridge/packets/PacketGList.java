@@ -7,8 +7,12 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.kitteh.vanish.VanishManager;
-import org.kitteh.vanish.VanishPerms;
+
+import com.ponyvillesquare.serverbridge.Log;
 import com.ponyvillesquare.serverbridge.ServerBridgePlugin;
+
+import ru.tehkode.permissions.PermissionUser;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class PacketGList extends Packet {
     private final UUID sender;
@@ -46,15 +50,17 @@ public class PacketGList extends Packet {
         @Override
         public void process(final Packet packet) {
             final PacketGList p = (PacketGList) packet;
-            final Player sender = Bukkit.getPlayer(p.getSender());
-            if (sender == null)
+            PermissionUser sender = PermissionsEx.getPermissionManager().getUser(p.sender);
+            if (sender == null) {
+                Log.debug("Sender is null, not doing anything.");
                 return;
+            }
             int i = 0;
             final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
             final String[] playerNames = new String[players.size()];
             for (final Player player : players) {
                 if (vanish.isVanished(player)) {
-                    if (VanishPerms.canList(sender))
+                    if (sender.has("vanish.list"))
                         playerNames[i++] = player.getName();
                 } else
                     playerNames[i++] = player.getName();

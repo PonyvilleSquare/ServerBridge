@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.kitteh.vanish.VanishManager;
 import com.google.common.base.Joiner;
+import com.ponyvillesquare.serverbridge.Log;
 
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -67,8 +68,10 @@ public class PacketGListReply extends Packet {
         public void process(final Packet packet) {
             final PacketGListReply p = (PacketGListReply) packet;
             PermissionUser sender = PermissionsEx.getPermissionManager().getUser(p.sender);
-            if (sender == null)
+            if (sender == null) {
+                Log.debug("Sender is null, not doing anything.");
                 return;
+            }
             final List<String> playerNames = new LinkedList<String>();
             for (final Player player : Bukkit.getOnlinePlayers()) {
                 if (vanish.isVanished(player)) {
